@@ -16,6 +16,7 @@ cond:
 end:
   halt
 
+.pos 0x200
 .align 8
 # Source block
 src:
