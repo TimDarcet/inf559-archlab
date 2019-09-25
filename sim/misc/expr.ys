@@ -2,7 +2,7 @@
   mrmovq x, %rax
   irmovq $5, %rbx
   subq %rax, %rbx
-  jl end
+  jge end
   irmovq $1, %rcx
   addq %rcx, %rax
 end:
