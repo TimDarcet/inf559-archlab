@@ -9,6 +9,6 @@ end:
   rmmovq %rax, y
   halt
 
-.pos 100
+.pos 128
 x: .quad -1
 y: .quad 0
