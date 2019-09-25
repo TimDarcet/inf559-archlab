@@ -1,0 +1,30 @@
+# copy.ys by Timothee Darcet
+
+.pos 0
+  mrmovq len, %rax  # Hold length remaining
+  irmovq $0, %rbx  # Constant
+  irmovq $1, %rcx  # Constant
+  irmovq $0, %rdx  # Adress offset
+  subq %rbx, %rax  # Initialize cond
+cond:
+  jle end
+  mrmovq src(%rdx), %rsp
+  rmmovq %rsp, dst(%rdx)
+  addq %rcx, %rdx
+  subq %rcx, %rax
+  jmp cond
+end:
+  halt
+
+.align 8
+# Source block
+src:
+        .quad 0x00a
+        .quad 0x0b0
+        .quad 0xc00
+
+# Destination block
+dest:
+        .quad 0x111
+        .quad 0x222
+        .quad 0x333
