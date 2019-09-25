@@ -24,7 +24,7 @@ src:
         .quad 0xc00
 
 # Destination block
-dest:
+dst:
         .quad 0x111
         .quad 0x222
         .quad 0x333
