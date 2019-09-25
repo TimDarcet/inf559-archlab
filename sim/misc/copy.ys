@@ -12,9 +12,11 @@ cond:
   mrmovq src(%rdx), %rsp
   rmmovq %rsp, dst(%rdx)
   addq %rbp, %rdx
+  xorq %rsp, %rsi
   subq %rcx, %rax
   jmp cond
 end:
+  rmmovq %rsi, result
   halt
 
 .pos 0x200
@@ -33,3 +35,6 @@ dst:
 
 len:
   .quad 3
+
+result:
+  .quad 0
