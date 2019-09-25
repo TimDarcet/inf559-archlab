@@ -1,0 +1,14 @@
+.pos 0
+  mrmovq x, %rax
+  irmovq $5, %rbx
+  subq %rax, %rbx
+  jl end
+  irmovq $1, %rcx
+  addq %rcx, %rax
+end:
+  rmmovq %rax, y
+  halt
+
+.pos 100
+x: .quad -1
+y: .quad 0x00
