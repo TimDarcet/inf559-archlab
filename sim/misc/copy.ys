@@ -5,12 +5,13 @@
   irmovq $0, %rbx  # Constant
   irmovq $1, %rcx  # Constant
   irmovq $0, %rdx  # Adress offset
+  irmovq $8, %rbp  # Constant
   subq %rbx, %rax  # Initialize cond
 cond:
   jle end
   mrmovq src(%rdx), %rsp
   rmmovq %rsp, dst(%rdx)
-  addq %rcx, %rdx
+  addq %rbp, %rdx
   subq %rcx, %rax
   jmp cond
 end:
