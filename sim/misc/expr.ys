@@ -11,4 +11,4 @@ end:
 
 .pos 100
 x: .quad -1
-y: .quad 0x00
+y: .quad 0
