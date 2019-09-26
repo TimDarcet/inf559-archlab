@@ -1,0 +1,4 @@
+*.yo
+*.o
+sim/misc/yis
+sim/misc/yis.o

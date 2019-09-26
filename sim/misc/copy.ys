@@ -1,4 +1,4 @@
-# copy.ys by Timothee Darcet
+# copy.ys by Timothee Darcet (timothee.darcet)
 
 .pos 0
   mrmovq len, %rax  # Hold length remaining

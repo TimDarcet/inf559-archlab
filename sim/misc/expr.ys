@@ -1,4 +1,4 @@
-# expr.ys by Timothee Darcet
+# expr.ys by Timothee Darcet (timothee.darcet)
 
 .pos 0
   mrmovq x, %rax
