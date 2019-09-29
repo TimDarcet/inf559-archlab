@@ -2,3 +2,11 @@
 *.o
 sim/misc/yis
 sim/misc/yis.o
+sim/seq/seq-full.c
+sim/misc/yas
+GPUCache/data_3
+GPUCache/data_0
+GPUCache/data_1
+GPUCache/data_2
+GPUCache/index
+sim/misc/yas
