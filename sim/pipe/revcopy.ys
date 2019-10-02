@@ -5,7 +5,7 @@
 # Copy a src block of len words to dst in reverse order.
 # Return the number of positive words (>0) contained in src.
 #
-# TODO: Include your name and ID here.
+# Timothee Darcet timothee.darcet
 #
 # Describe how and why you modified the baseline code.
 #
@@ -16,6 +16,9 @@
 ncopy:
 
 ##################################################################
+# %r10: constant 1
+# %r8: constant 8
+# %rbx: tmp storage
 # You can modify this portion
 	# Loop header
 	xorq %rax, %rax		# count = 0;
@@ -24,27 +27,21 @@ ncopy:
 
  	rrmovq %rdx, %r11       # r11 = len
 	irmovq $1, %r10
+	irmovq $8, %r8
 	subq %r10, %r11         # r11--	
-Init:	andq %r11, %r11		# r11 <= 0?
-	jle Loop		# if so, goto Loop:
-	irmovq $8, %r10
-	addq %r10, %rsi		# dst++
-	irmovq $1, %r10
+Init:	jle Loop		# if so, goto Loop:
+	addq %r8, %rsi		# dst++
 	subq %r10, %r11         # r11--
 	jmp Init
 
-Loop:	mrmovq (%rdi), %r10	# read val from src...
-	rmmovq %r10, (%rsi)	# ...and store it to dst
-	andq %r10, %r10		# val <= 0?
+Loop:	mrmovq (%rdi), %rbx	# read val from src...
+	rmmovq %rbx, (%rsi)	# ...and store it to dst
+	andq %rbx, %rbx		# val <= 0?
 	jle Npos		# if so, goto Npos:
-	irmovq $1, %r10
 	addq %r10, %rax		# count++
-Npos:	irmovq $1, %r10
+Npos:	addq %r8, %rdi		# src++
+	subq %r8, %rsi		# dst--
 	subq %r10, %rdx		# len--
-	irmovq $8, %r10
-	addq %r10, %rdi		# src++
-	subq %r10, %rsi		# dst--
-	andq %rdx,%rdx		# len > 0?
 	jg Loop			# if so, goto Loop:
 ##################################################################
 # Do not modify the following section of code
