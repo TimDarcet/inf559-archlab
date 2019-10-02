@@ -8,6 +8,7 @@
 ## The file contains a declaration of the icodes
 ## for iaddq (IIADDQ)
 ## Your job is to add the rest of the logic to make it work
+## Modifications by Timothee Darcet, timothee.darcet
 
 ####################################################################
 #    C Include's.  Don't alter these                               #
