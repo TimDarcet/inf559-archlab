@@ -21,10 +21,9 @@ ncopy:
 # %rbx: tmp storage
 # You can modify this portion
 	# Loop header
-	xorq %rax, %rax		# count = 0;
+	irmovq $0, %rax		# count = 0;
 	andq %rdx, %rdx		# len <= 0?
 	jle Done		# if so, goto Done:
-
  	rrmovq %rdx, %r11       # r11 = len
 	irmovq $1, %r10
 	irmovq $8, %r8
