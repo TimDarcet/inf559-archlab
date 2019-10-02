@@ -9,6 +9,16 @@
 ## for iaddq (IIADDQ)
 ## Your job is to add the rest of the logic to make it work
 ## iaddq by Timothée Darcet (timothee.darcet)
+## Work done for the iaddq instruction:
+## Added the word IIADDQ (l.53)
+## Added it as a valid instruction (l.120)
+## Declared the instruction as needing a regid byte and valC (l.125, l.129)
+## Declared the B source as rB (l.142)
+## Declared the E dest as rB (l.150)
+## Declared the A ALU input as valC (l.166)
+## Declared the B ALU input as valB (l.174)
+## Updated condition code (l.187)
+
 
 ####################################################################
 #    C Include's.  Don't alter these                               #
