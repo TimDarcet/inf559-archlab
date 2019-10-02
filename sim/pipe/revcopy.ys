@@ -25,8 +25,6 @@ ncopy:
 	andq %rdx, %rdx		# len <= 0?
 	jle Done		# if so, goto Done:
  	rrmovq %rdx, %r11       # r11 = len
-	irmovq $1, %r10
-	irmovq $8, %r8
 	iaddq $-1, %r11         # r11--	
 Init:	jle Loop		# if so, goto Loop:
 	iaddq $8, %rsi		# dst++
