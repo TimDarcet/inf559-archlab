@@ -21,10 +21,9 @@ ncopy:
 # You can modify this portion
 	# Loop header
 	irmovq $0, %rax		# count = 0;
-	andq %rdx, %rdx		# len <= 0?
-	jle Done		# if so, goto Done:
- 	addq %rdx, %rdx		# %rdx = 2 * len
-	addq %rdx, %rdx		# %rdx = 4 * len
+	addq %rdx, %rdx		# %rdx = 2 * len
+	jle Done		# if <= 0 , goto Done:
+ 	addq %rdx, %rdx		# %rdx = 4 * len
 	addq %rdx, %rdx		# %rdx = 8 * len
 	addq %rdx, %rsi		# %rsi is at the end of word
 	iaddq $-8, %rsi
