@@ -24,12 +24,10 @@ ncopy:
 	andq %rdx, %rdx		# len <= 0?
 	jle Done		# if so, goto Done:
  	rrmovq %rdx, %r11       # r11 = len
-	iaddq $-1, %r11         # r11--	
-Init:	jle Loop		# if so, goto Loop:
-	iaddq $8, %rsi		# dst++
-	iaddq $-1, %r11         # r11--
-	jmp Init
-
+	addq %r11, %r11		# %r11 = 2 * len
+	addq %r11, %r11		# %r11 = 4 * len
+	addq %r11, %r11		# %r11 = 8 * len
+	addq %r11, %rsi		# %rsi is at the end of word
 Loop:	mrmovq (%rdi), %rbx	# read val from src...
 	rmmovq %rbx, (%rsi)	# ...and store it to dst
 	andq %rbx, %rbx		# val <= 0?
