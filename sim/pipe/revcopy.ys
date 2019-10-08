@@ -23,7 +23,7 @@ ncopy:
 # You can modify this portion
 		# Loop header
 		addq %rdx, %rdx			# %rdx = 2 * len
-		# nop
+		nop
 		jg Next			    	# if > 0 , skip ret
 		ret
 Next: 	addq %rdx, %rdx			# %rdx = 4 * len
