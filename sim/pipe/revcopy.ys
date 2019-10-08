@@ -23,15 +23,15 @@ ncopy:
 # You can modify this portion
 		# Loop header
 		addq %rdx, %rdx			# %rdx = 2 * len
-		nop
+		# nop
 		jg Next			    	# if > 0 , skip ret
 		ret
 Next: 	addq %rdx, %rdx			# %rdx = 4 * len
 		irmovq $0, %rax			# count = 0;
-		nop
+		# nop
 		addq %rdx, %rdx			# %rdx = 8 * len
 		iaddq $-8, %rsi			# Adjust offset
-		nop
+		# nop
 		addq %rdx, %rsi			# %rsi is at the end of word
 Loop:	mrmovq (%rdi), %rbx		# read val from src...
 		iaddq $8, %rdi			# src++
