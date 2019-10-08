@@ -34,7 +34,7 @@ Next: 	addq %rdx, %rdx			# %rdx = 4 * len
 		# nop
 		# nop
 		addq %rdx, %rsi			# %rsi is at the end of word
-ULoop:	iaddq $-80, %rdx	# len--
+ULoop:	iaddq $-88, %rdx	# len--
 		jge UStep1				# if there are still things to copy, skip jmp
 		jmp Betw
 UStep1:	mrmovq (%rdi), %rbx	# read val from src...
@@ -115,11 +115,19 @@ UStep10:	mrmovq (%rdi), %rbx	# read val from src...
 		rmmovq %rbx, (%rsi)		# ...and store it to dst
 		iaddq $-8, %rsi			# dst--
 		andq %rbx, %rbx			# val <= 0?
+		jle UStep11				# if so, goto UStep2: (skip count++)
+		iaddq $1, %rax			# count++
+UStep11:	mrmovq (%rdi), %rbx	# read val from src...
+		iaddq $8, %rdi			# src++
+		# nop
+		rmmovq %rbx, (%rsi)		# ...and store it to dst
+		iaddq $-8, %rsi			# dst--
+		andq %rbx, %rbx			# val <= 0?
 		jle Ufin				# if so, goto Ufin: (skip count++)
 		iaddq $1, %rax			# count++
 Ufin:	jmp ULoop
 
-Betw:	iaddq $80, %rdx
+Betw:	iaddq $88, %rdx
 		andq %rdx, %rdx			# Test rdx > 0
 		# nop
 		jg FLoop			    	# if rdx > 0 , skip ret
