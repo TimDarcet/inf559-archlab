@@ -24,8 +24,8 @@ ncopy:
 		# Loop header
 		addq %rdx, %rdx			# %rdx = 2 * len
 		# nop
-		# jg Next			    	# if > 0 , skip ret
-		# ret
+		jg Next			    	# if > 0 , skip ret
+		ret
 Next: 	addq %rdx, %rdx			# %rdx = 4 * len
 		irmovq $0, %rax			# count = 0;
 		# nop
@@ -45,10 +45,7 @@ Next: 	addq %rdx, %rdx			# %rdx = 4 * len
 # 		jle UNpos				# if so, goto Npos: (skip count++)
 # 		iaddq $1, %rax			# count++
 # UNpos:	jmp ULoop
-FLoop:	iaddq $-8, %rdx			# len--
-		jge FNext
-		jmp Done
-FNext:	mrmovq (%rdi), %rbx		# read val from src...
+FLoop:	mrmovq (%rdi), %rbx		# read val from src...
 		iaddq $8, %rdi			# src++
 		# nop
 		rmmovq %rbx, (%rsi)		# ...and store it to dst
@@ -56,7 +53,8 @@ FNext:	mrmovq (%rdi), %rbx		# read val from src...
 		andq %rbx, %rbx			# val <= 0?
 		jle FNpos				# if so, goto Npos: (skip count++)
 		iaddq $1, %rax			# count++
-FNpos:	jmp FLoop				# if there are still things to copy, goto Loop:
+FNpos:	iaddq $-8, %rdx			# len--
+		jg FLoop				# if there are still things to copy, goto Loop:
 ##################################################################
 # Do not modify the following section of code
 # Function epilogue.
