@@ -23,22 +23,23 @@ ncopy:
 # You can modify this portion
 		# Loop header
 		addq %rdx, %rdx			# %rdx = 2 * len
-		jg Next			    	# if > 0 , skip ret
-		ret
-Next: 	addq %rdx, %rdx			# %rdx = 4 * len
+	 	addq %rdx, %rdx			# %rdx = 4 * len
 		irmovq $0, %rax			# count = 0;
 		addq %rdx, %rdx			# %rdx = 8 * len
 		iaddq $-8, %rsi			# Adjust offset
 		addq %rdx, %rsi			# %rsi is at the end of word
-Loop:	mrmovq (%rdi), %rbx		# read val from src...
+		iaddq $8, %rdx
+Loop:	iaddq $-8, %rdx			# len--
+		jg Next			    	# if > 0 , skip ret
+		ret
+Next:	mrmovq (%rdi), %rbx		# read val from src...
 		iaddq $8, %rdi			# src++
 		rmmovq %rbx, (%rsi)		# ...and store it to dst
 		iaddq $-8, %rsi			# dst--
 		andq %rbx, %rbx			# val <= 0?
 		jle Npos				# if so, goto Npos: (skip count++)
 		iaddq $1, %rax			# count++
-Npos:	iaddq $-8, %rdx			# len--
-		jg Loop					# if there are still things to copy, goto Loop:
+Npos:	jmp Loop					# if there are still things to copy, goto Loop:
 ##################################################################
 # Do not modify the following section of code
 # Function epilogue.
