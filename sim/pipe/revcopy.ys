@@ -28,7 +28,7 @@ ncopy:
 	addq %r11, %r11		# %r11 = 4 * len
 	addq %r11, %r11		# %r11 = 8 * len
 	addq %r11, %rsi		# %rsi is at the end of word
-	iaddq $-1, %rsi
+	iaddq $-8, %rsi
 Loop:	mrmovq (%rdi), %rbx	# read val from src...
 	rmmovq %rbx, (%rsi)	# ...and store it to dst
 	andq %rbx, %rbx		# val <= 0?
