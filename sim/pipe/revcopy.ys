@@ -7,7 +7,9 @@
 #
 # Timothee Darcet timothee.darcet
 #
-# Describe how and why you modified the baseline code.
+# Use iaddq to use less registers
+# Reformulate conditional jumps to be taken as often as possible (since the pipe simulator supposes they are taken)
+#
 #
 ##################################################################
 # Do not modify this portion
@@ -20,22 +22,22 @@ ncopy:
 # %rax: count
 # You can modify this portion
 		# Loop header
-		irmovq $0, %rax			# count = 0;
 		addq %rdx, %rdx			# %rdx = 2 * len
-		jg Next		    	# if <= 0 , goto Done:
+		jg Next			    	# if > 0 , skip ret
 		ret
 Next: 	addq %rdx, %rdx			# %rdx = 4 * len
+		irmovq $0, %rax			# count = 0;
 		addq %rdx, %rdx			# %rdx = 8 * len
 		addq %rdx, %rsi			# %rsi is at the end of word
 		iaddq $-8, %rsi			# Adjust offset
 Loop:	mrmovq (%rdi), %rbx		# read val from src...
+		iaddq $8, %rdi			# src++
 		rmmovq %rbx, (%rsi)		# ...and store it to dst
+		iaddq $-8, %rsi			# dst--
 		andq %rbx, %rbx			# val <= 0?
 		jle Npos				# if so, goto Npos: (skip count++)
 		iaddq $1, %rax			# count++
-Npos:	iaddq $8, %rdi			# src++
-		iaddq $-8, %rsi			# dst--
-		iaddq $-8, %rdx			# len--
+Npos:	iaddq $-8, %rdx			# len--
 		jg Loop					# if there are still things to copy, goto Loop:
 ##################################################################
 # Do not modify the following section of code
