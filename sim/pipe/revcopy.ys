@@ -28,9 +28,9 @@ ncopy:
 	addq %rdx, %rsi			# %rsi is at the end of word
 	iaddq $-8, %rsi			# Adjust offset
 Loop:	mrmovq (%rdi), %rbx	# read val from src...
-	rmmovq %rbx, (%rsi)		# ...and store it to dst
-	andq %rbx, %rbx			# val <= 0?
 	jle Npos				# if so, goto Npos: (skip count++)
+	rmmovq %rbx, (%rsi)		# ...and store it to dst
+	#andq %rbx, %rbx			# val <= 0?
 	iaddq $1, %rax			# count++
 Npos:	iaddq $8, %rdi		# src++
 	iaddq $-8, %rsi			# dst--
