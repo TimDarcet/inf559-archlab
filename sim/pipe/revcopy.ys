@@ -32,28 +32,41 @@ Next: 	addq %rdx, %rdx			# %rdx = 4 * len
 		addq %rdx, %rdx			# %rdx = 8 * len
 		iaddq $-8, %rsi			# Adjust offset
 		# nop
+		# nop
 		addq %rdx, %rsi			# %rsi is at the end of word
-# ULoop:	iaddq $-8, %rdx			# len--
-# 		jg UNext				# if there are still things to copy, skip jmp
-# 		jmp FLoop
-# UNext:	mrmovq (%rdi), %rbx		# read val from src...
+# ULoop:	iaddq $-64, %rdx	# len--
+# 		jge UStep1				# if there are still things to copy, skip jmp
+# 		jmp Betw
+# UStep1:	mrmovq (%rdi), %rbx	# read val from src...
 # 		iaddq $8, %rdi			# src++
 # 		# nop
 # 		rmmovq %rbx, (%rsi)		# ...and store it to dst
 # 		iaddq $-8, %rsi			# dst--
 # 		andq %rbx, %rbx			# val <= 0?
-# 		jle UNpos				# if so, goto Npos: (skip count++)
+# 		jle UNfin				# if so, goto UNfin: (skip count++)
 # 		iaddq $1, %rax			# count++
-# UNpos:	jmp ULoop
+# UStep1:	mrmovq (%rdi), %rbx	# read val from src...
+# 		iaddq $8, %rdi			# src++
+# 		# nop
+# 		rmmovq %rbx, (%rsi)		# ...and store it to dst
+# 		iaddq $-8, %rsi			# dst--
+# 		andq %rbx, %rbx			# val <= 0?
+# 		jle UNfin				# if so, goto UNfin: (skip count++)
+# 		iaddq $1, %rax			# count++
+
+# UNfin:	jmp ULoop
+
+# Betw:	iaddq $64, %rdx
+
 FLoop:	mrmovq (%rdi), %rbx		# read val from src...
 		iaddq $8, %rdi			# src++
 		# nop
 		rmmovq %rbx, (%rsi)		# ...and store it to dst
 		iaddq $-8, %rsi			# dst--
 		andq %rbx, %rbx			# val <= 0?
-		jle FNpos				# if so, goto Npos: (skip count++)
+		jle FNfin				# if so, goto FNfin: (skip count++)
 		iaddq $1, %rax			# count++
-FNpos:	iaddq $-8, %rdx			# len--
+FNfin:	iaddq $-8, %rdx			# len--
 		jg FLoop				# if there are still things to copy, goto Loop:
 ##################################################################
 # Do not modify the following section of code
