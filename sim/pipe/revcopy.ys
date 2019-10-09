@@ -139,23 +139,23 @@ ncopy:
 
 	Betw1:	iaddq $56, %rdx
 # Second unrolling
-	U2Loop:	iaddq $-16, %rdx	# len--
-			jge U2Step1				# if there are still things to copy, skip jmp
-			jmp Betw2
-	U2Step1:	mrmovq 0(%rdi), %rbx	# read val from src...
-			# iaddq $8, %rdi			# src++
-			# nop
-			rmmovq %rbx, -0(%rsi)		# ...and store it to dst
-			# iaddq $-8, %rsi			# dst--
-			andq %rbx, %rbx			# val <= 0?
-			jle U2Step2				# if so, goto U2Step2: (skip count++)
-			iaddq $1, %rax			# count++
-	U2Step2:	mrmovq 8(%rdi), %rbx	# read val from src...
-			# iaddq $8, %rdi			# src++
-			# nop
-			rmmovq %rbx, -8(%rsi)		# ...and store it to dst
-			# iaddq $-8, %rsi			# dst--
-			andq %rbx, %rbx			# val <= 0?
+	# U2Loop:	iaddq $-16, %rdx		# len--
+	# 		jge U2Step1				# if there are still things to copy, skip jmp
+	# 		jmp Betw2
+	# U2Step1:	mrmovq 0(%rdi), %rbx	# read val from src...
+	# 		# iaddq $8, %rdi			# src++
+	# 		# nop
+	# 		rmmovq %rbx, -0(%rsi)		# ...and store it to dst
+	# 		# iaddq $-8, %rsi			# dst--
+	# 		andq %rbx, %rbx			# val <= 0?
+	# 		jle U2Step2				# if so, goto U2Step2: (skip count++)
+	# 		iaddq $1, %rax			# count++
+	# U2Step2:	mrmovq 8(%rdi), %rbx	# read val from src...
+	# 		# iaddq $8, %rdi			# src++
+	# 		# nop
+	# 		rmmovq %rbx, -8(%rsi)		# ...and store it to dst
+	# 		# iaddq $-8, %rsi			# dst--
+	# 		andq %rbx, %rbx			# val <= 0?
 	# 		jle U2Step3				# if so, goto U2Step2: (skip count++)
 	# 		iaddq $1, %rax			# count++
 	# U2Step3:	mrmovq 16(%rdi), %rbx	# read val from src...
@@ -260,13 +260,13 @@ ncopy:
 	# 		rmmovq %rbx, (%rsi)		# ...and store it to dst
 	# 		iaddq $-8, %rsi			# dst--
 	# 		andq %rbx, %rbx			# val <= 0?
-			jle U2fin				# if so, goto Ufin: (skip count++)
-			iaddq $1, %rax			# count++
-	U2fin:	iaddq $16, %rsi
-			iaddq $-16, %rdi	
-			jmp U2Loop
+	# 		jle U2fin				# if so, goto Ufin: (skip count++)
+	# 		iaddq $1, %rax			# count++
+	# U2fin:	iaddq $16, %rsi
+	# 		iaddq $-16, %rdi	
+	# 		jmp U2Loop
 
-	Betw2:	iaddq $16, %rdx
+	# Betw2:	iaddq $16, %rdx
 
 # Init end loop
 	andq %rdx, %rdx			# Test rdx > 0
