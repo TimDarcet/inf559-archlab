@@ -289,7 +289,7 @@ ncopy:
 	jg FLoop			    	# if rdx > 0 , skip ret
 	ret
 # TODO: Comment ça marche la syntaxe x() ? Parce que là c'est bizarre
-iaddq $-8, %rdi
+	iaddq $-8, %rdi
 # End loop
 FLoop:	mrmovq 8(%rdi), %rbx		# read val from src...
 		iaddq $8, %rdi			# src++
