@@ -23,17 +23,17 @@ ncopy:
 # You can modify this portion
 		# Loop header
 		irmovq $0, %rax			# count = 0;
+		rrmovq %rdx, %r11
 		iaddq $-8, %rdx
 		jge EffMov
 		iaddq $8, %rdx
-BruteM: iaddq $-1, %rdx
+BruteM: iaddq $-1, %r11
 		jg BruteN
 		jmp ULoop
 BruteN:	iaddq $8, %rsi
 		jmp BruteM
 		
 EffMov:	iaddq $8, %rdx
-		rrmovq %rdx, %r11
 		iaddq $-8, %rsi			# Adjust offset
 		addq %r11, %r11			# %rdx = 2 * len
 	 	addq %r11, %r11			# %rdx = 4 * len
