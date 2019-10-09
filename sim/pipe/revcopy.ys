@@ -9,7 +9,9 @@
 #
 # Use iaddq to use less registers
 # Reformulate conditional jumps to be taken as often as possible (since the pipe simulator supposes they are taken)
-#
+# Single loop unrolling of order 7
+# Swap independent ops
+# Better initialisation loop
 #
 ##################################################################
 # Do not modify this portion
