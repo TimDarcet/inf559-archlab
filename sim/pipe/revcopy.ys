@@ -292,9 +292,9 @@ Betw1:	iaddq $56, %rdx
 		# nop
 		jg FLoop			    	# if rdx > 0 , skip ret
 		ret
-
+	iaddq $-1, %rdi
 # End loop
-FLoop:	mrmovq (%rdi), %rbx		# read val from src...
+FLoop:	mrmovq 1(%rdi), %rbx		# read val from src...
 		iaddq $8, %rdi			# src++
 		# nop
 		rmmovq %rbx, (%rsi)		# ...and store it to dst
