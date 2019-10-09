@@ -154,7 +154,7 @@ ncopy:
 			iaddq $56, %rdi			# src+=7
 			jmp ULoop
 
-	# Betw1:	iaddq $56, %rdx
+	Betw1:	iaddq $56, %rdx
 # Second unrolling
 	# U2Loop:	iaddq $-24, %rdx	# len--
 	# 		jge U2Step1				# if there are still things to copy, skip jmp
