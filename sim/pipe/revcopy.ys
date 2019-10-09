@@ -286,10 +286,10 @@ ncopy:
 # Init end loop
 	andq %rdx, %rdx			# Test rdx > 0
 	# nop
-	jg FLoop			    	# if rdx > 0 , skip ret
+	jg FLoopInit			    	# if rdx > 0 , skip ret
 	ret
 # TODO: Comment ça marche la syntaxe x() ? Parce que là c'est bizarre
-	iaddq $-8, %rdi
+FLoopInit:	iaddq $-8, %rdi
 # End loop
 FLoop:	mrmovq 8(%rdi), %rbx		# read val from src...
 		iaddq $8, %rdi			# src++
