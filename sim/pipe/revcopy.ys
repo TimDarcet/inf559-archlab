@@ -292,6 +292,7 @@ Betw1:	iaddq $56, %rdx
 		# nop
 		jg FLoop			    	# if rdx > 0 , skip ret
 		ret
+	# TODO: Comment ça marche la syntaxe x() ? Parce que là c'est bizarre
 	# iaddq $8, %rdi
 # End loop
 FLoop:	mrmovq $-0(%rdi), %rbx		# read val from src...
