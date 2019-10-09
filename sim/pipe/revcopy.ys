@@ -22,10 +22,10 @@ ncopy:
 # %rax: count
 # You can modify this portion
 		# Loop header
-		irmovq $0, %rax			# count = 0;
-		iaddq $-8, %rsi			# Adjust offset
 		addq %rdx, %rdx			# %rdx = 2 * len
+		irmovq $0, %rax			# count = 0;
 	 	addq %rdx, %rdx			# %rdx = 4 * len
+		iaddq $-8, %rsi			# Adjust offset
 		addq %rdx, %rdx			# %rdx = 8 * len
 		addq %rdx, %rsi			# %rsi is at the end of word
 # First unrolling
