@@ -23,13 +23,23 @@ ncopy:
 # You can modify this portion
 		# Loop header
 		irmovq $0, %rax			# count = 0;
+		iaddq $-8, %rdx
+		jge EffMov
+		iaddq $8, %rdx
+BruteM: iaddq $-1, %rdx
+		jge BruteN
+		jmp ULoop
+BruteN:	iaddq $8, %rsi
+		jmp BruteM
+		
+EffMov:	rrmovq %rdx, %r11
 		iaddq $-8, %rsi			# Adjust offset
-		addq %rdx, %rdx			# %rdx = 2 * len
-	 	addq %rdx, %rdx			# %rdx = 4 * len
-		addq %rdx, %rdx			# %rdx = 8 * len
-		addq %rdx, %rsi			# %rsi is at the end of word
+		addq %r11, %r11			# %rdx = 2 * len
+	 	addq %r11, %r11			# %rdx = 4 * len
+		addq %r11, %r11			# %rdx = 8 * len
+		addq %r11, %rsi			# %rsi is at the end of word
 # First unrolling
-	ULoop:	iaddq $-56, %rdx		# len--
+	ULoop:	iaddq $-7, %rdx		# len--
 			jge UStep1				# if there are still things to copy, skip jmp
 			jmp Betw1				# End unrolled loop
 	UStep1:	mrmovq 0(%rdi), %rbx	# read val from src...
@@ -137,7 +147,7 @@ ncopy:
 			iaddq $56, %rdi			# src+=7
 			jmp ULoop
 
-	Betw1:	iaddq $56, %rdx
+	Betw1:	iaddq $7, %rdx
 # # Second unrolling
 # 	U2Loop:	iaddq $-16, %rdx		# len--
 # 			jge U2Step1				# if there are still things to copy, skip jmp
@@ -276,7 +286,7 @@ FLoop:	mrmovq (%rdi), %rbx		# read val from src...
 		andq %rbx, %rbx			# val <= 0?
 		jle Ffin				# if so, goto Ffin: (skip count++)
 		iaddq $1, %rax			# count++
-Ffin:	iaddq $-8, %rdx			# len--
+Ffin:	iaddq $-1, %rdx			# len--
 		jg FLoop				# if there are still things to copy, goto Loop:
 ##################################################################
 # Do not modify the following section of code
