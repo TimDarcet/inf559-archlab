@@ -36,10 +36,10 @@ Next: 	addq %rdx, %rdx			# %rdx = 4 * len
 ULoop:	iaddq $-56, %rdx	# len--
 		jge UStep1				# if there are still things to copy, skip jmp
 		jmp Betw1
-UStep1:	mrmovq (%rdi), %rbx	# read val from src...
+UStep1:	mrmovq 0(%rdi), %rbx	# read val from src...
 		iaddq $8, %rdi			# src++
 		# nop
-		rmmovq %rbx, (%rsi)		# ...and store it to dst
+		rmmovq %rbx, 0(%rsi)		# ...and store it to dst
 		iaddq $-8, %rsi			# dst--
 		# nop
 		andq %rbx, %rbx			# val <= 0?
