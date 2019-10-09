@@ -22,10 +22,10 @@ ncopy:
 # %rax: count
 # You can modify this portion
 		# Loop header
-		addq %rdx, %rdx			# %rdx = 2 * len
 		irmovq $0, %rax			# count = 0;
-	 	addq %rdx, %rdx			# %rdx = 4 * len
 		iaddq $-8, %rsi			# Adjust offset
+		addq %rdx, %rdx			# %rdx = 2 * len
+	 	addq %rdx, %rdx			# %rdx = 4 * len
 		addq %rdx, %rdx			# %rdx = 8 * len
 		addq %rdx, %rsi			# %rsi is at the end of word
 # First unrolling
@@ -282,7 +282,8 @@ ncopy:
 	# U2fin:	jmp U2Loop
 
 	# Betw2:	iaddq $24, %rdx
-	
+
+# Init end loop
 	andq %rdx, %rdx			# Test rdx > 0
 	# nop
 	jg FLoop			    	# if rdx > 0 , skip ret
@@ -290,7 +291,7 @@ ncopy:
 # TODO: Comment ça marche la syntaxe x() ? Parce que là c'est bizarre
 # iaddq $8, %rdi
 # End loop
-FLoop:	mrmovq $-0(%rdi), %rbx		# read val from src...
+FLoop:	mrmovq (%rdi), %rbx		# read val from src...
 		iaddq $8, %rdi			# src++
 		rmmovq %rbx, (%rsi)		# ...and store it to dst
 		iaddq $-8, %rsi			# dst--
