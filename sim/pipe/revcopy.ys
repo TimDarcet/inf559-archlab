@@ -34,9 +34,9 @@ Next: 	addq %rdx, %rdx			# %rdx = 4 * len
 		# nop
 		# nop
 		addq %rdx, %rsi			# %rsi is at the end of word
-ULoop:	iaddq $-104, %rdx	# len--
+ULoop:	iaddq $-80, %rdx	# len--
 		jge UStep1				# if there are still things to copy, skip jmp
-		jmp Betw
+		jmp Betw1
 UStep1:	mrmovq (%rdi), %rbx	# read val from src...
 		iaddq $8, %rdi			# src++
 		# nop
@@ -115,30 +115,30 @@ UStep10:	mrmovq (%rdi), %rbx	# read val from src...
 		rmmovq %rbx, (%rsi)		# ...and store it to dst
 		iaddq $-8, %rsi			# dst--
 		andq %rbx, %rbx			# val <= 0?
-		jle UStep11				# if so, goto UStep2: (skip count++)
-		iaddq $1, %rax			# count++
-UStep11:	mrmovq (%rdi), %rbx	# read val from src...
-		iaddq $8, %rdi			# src++
-		# nop
-		rmmovq %rbx, (%rsi)		# ...and store it to dst
-		iaddq $-8, %rsi			# dst--
-		andq %rbx, %rbx			# val <= 0?
-		jle UStep12				# if so, goto UStep2: (skip count++)
-		iaddq $1, %rax			# count++
-UStep12:	mrmovq (%rdi), %rbx	# read val from src...
-		iaddq $8, %rdi			# src++
-		# nop
-		rmmovq %rbx, (%rsi)		# ...and store it to dst
-		iaddq $-8, %rsi			# dst--
-		andq %rbx, %rbx			# val <= 0?
-		jle UStep13				# if so, goto UStep2: (skip count++)
-		iaddq $1, %rax			# count++
-UStep13:	mrmovq (%rdi), %rbx	# read val from src...
-		iaddq $8, %rdi			# src++
-		# nop
-		rmmovq %rbx, (%rsi)		# ...and store it to dst
-		iaddq $-8, %rsi			# dst--
-		andq %rbx, %rbx			# val <= 0?
+# 		jle UStep11				# if so, goto UStep2: (skip count++)
+# 		iaddq $1, %rax			# count++
+# UStep11:	mrmovq (%rdi), %rbx	# read val from src...
+# 		iaddq $8, %rdi			# src++
+# 		# nop
+# 		rmmovq %rbx, (%rsi)		# ...and store it to dst
+# 		iaddq $-8, %rsi			# dst--
+# 		andq %rbx, %rbx			# val <= 0?
+# 		jle UStep12				# if so, goto UStep2: (skip count++)
+# 		iaddq $1, %rax			# count++
+# UStep12:	mrmovq (%rdi), %rbx	# read val from src...
+# 		iaddq $8, %rdi			# src++
+# 		# nop
+# 		rmmovq %rbx, (%rsi)		# ...and store it to dst
+# 		iaddq $-8, %rsi			# dst--
+# 		andq %rbx, %rbx			# val <= 0?
+# 		jle UStep13				# if so, goto UStep2: (skip count++)
+# 		iaddq $1, %rax			# count++
+# UStep13:	mrmovq (%rdi), %rbx	# read val from src...
+# 		iaddq $8, %rdi			# src++
+# 		# nop
+# 		rmmovq %rbx, (%rsi)		# ...and store it to dst
+# 		iaddq $-8, %rsi			# dst--
+# 		andq %rbx, %rbx			# val <= 0?
 # 		jle UStep14				# if so, goto UStep2: (skip count++)
 # 		iaddq $1, %rax			# count++
 # UStep14:	mrmovq (%rdi), %rbx	# read val from src...
@@ -159,7 +159,134 @@ UStep13:	mrmovq (%rdi), %rbx	# read val from src...
 		iaddq $1, %rax			# count++
 Ufin:	jmp ULoop
 
-Betw:	iaddq $104, %rdx
+Betw1:	iaddq $80, %rdx
+		
+U2Loop:	iaddq $-24, %rdx	# len--
+		jge U2Step1				# if there are still things to copy, skip jmp
+		jmp Betw2
+U2Step1:	mrmovq (%rdi), %rbx	# read val from src...
+		iaddq $8, %rdi			# src++
+		# nop
+		rmmovq %rbx, (%rsi)		# ...and store it to dst
+		iaddq $-8, %rsi			# dst--
+		andq %rbx, %rbx			# val <= 0?
+		jle U2Step2				# if so, goto U2Step2: (skip count++)
+		iaddq $1, %rax			# count++
+U2Step2:	mrmovq (%rdi), %rbx	# read val from src...
+		iaddq $8, %rdi			# src++
+		# nop
+		rmmovq %rbx, (%rsi)		# ...and store it to dst
+		iaddq $-8, %rsi			# dst--
+		andq %rbx, %rbx			# val <= 0?
+		jle U2Step3				# if so, goto U2Step2: (skip count++)
+		iaddq $1, %rax			# count++
+U2Step3:	mrmovq (%rdi), %rbx	# read val from src...
+		iaddq $8, %rdi			# src++
+		# nop
+		rmmovq %rbx, (%rsi)		# ...and store it to dst
+		iaddq $-8, %rsi			# dst--
+		andq %rbx, %rbx			# val <= 0?
+# 		jle U2Step4				# if so, goto U2Step2: (skip count++)
+# 		iaddq $1, %rax			# count++
+# U2Step4:	mrmovq (%rdi), %rbx	# read val from src...
+# 		iaddq $8, %rdi			# src++
+# 		# nop
+# 		rmmovq %rbx, (%rsi)		# ...and store it to dst
+# 		iaddq $-8, %rsi			# dst--
+# 		andq %rbx, %rbx			# val <= 0?
+# 		jle U2Step5				# if so, goto U2Step2: (skip count++)
+# 		iaddq $1, %rax			# count++
+# U2Step5:	mrmovq (%rdi), %rbx	# read val from src...
+# 		iaddq $8, %rdi			# src++
+# 		# nop
+# 		rmmovq %rbx, (%rsi)		# ...and store it to dst
+# 		iaddq $-8, %rsi			# dst--
+# 		andq %rbx, %rbx			# val <= 0?
+# 		jle U2Step6				# if so, goto U2Step2: (skip count++)
+# 		iaddq $1, %rax			# count++
+# U2Step6:	mrmovq (%rdi), %rbx	# read val from src...
+# 		iaddq $8, %rdi			# src++
+# 		# nop
+# 		rmmovq %rbx, (%rsi)		# ...and store it to dst
+# 		iaddq $-8, %rsi			# dst--
+# 		andq %rbx, %rbx			# val <= 0?
+# 		jle U2Step7				# if so, goto U2Step2: (skip count++)
+# 		iaddq $1, %rax			# count++
+# U2Step7:	mrmovq (%rdi), %rbx	# read val from src...
+# 		iaddq $8, %rdi			# src++
+# 		# nop
+# 		rmmovq %rbx, (%rsi)		# ...and store it to dst
+# 		iaddq $-8, %rsi			# dst--
+# 		andq %rbx, %rbx			# val <= 0?
+# 		jle U2Step8				# if so, goto U2Step2: (skip count++)
+# 		iaddq $1, %rax			# count++
+# U2Step8:	mrmovq (%rdi), %rbx	# read val from src...
+# 		iaddq $8, %rdi			# src++
+# 		# nop
+# 		rmmovq %rbx, (%rsi)		# ...and store it to dst
+# 		iaddq $-8, %rsi			# dst--
+# 		andq %rbx, %rbx			# val <= 0?
+# 		jle U2Step9				# if so, goto U2Step2: (skip count++)
+# 		iaddq $1, %rax			# count++
+# U2Step9:	mrmovq (%rdi), %rbx	# read val from src...
+# 		iaddq $8, %rdi			# src++
+# 		# nop
+# 		rmmovq %rbx, (%rsi)		# ...and store it to dst
+# 		iaddq $-8, %rsi			# dst--
+# 		andq %rbx, %rbx			# val <= 0?
+# 		jle U2Step10				# if so, goto U2Step2: (skip count++)
+# 		iaddq $1, %rax			# count++
+# U2Step10:	mrmovq (%rdi), %rbx	# read val from src...
+		iaddq $8, %rdi			# src++
+		# nop
+		rmmovq %rbx, (%rsi)		# ...and store it to dst
+		iaddq $-8, %rsi			# dst--
+		andq %rbx, %rbx			# val <= 0?
+# 		jle U2Step11				# if so, goto U2Step2: (skip count++)
+# 		iaddq $1, %rax			# count++
+# U2Step11:	mrmovq (%rdi), %rbx	# read val from src...
+# 		iaddq $8, %rdi			# src++
+# 		# nop
+# 		rmmovq %rbx, (%rsi)		# ...and store it to dst
+# 		iaddq $-8, %rsi			# dst--
+# 		andq %rbx, %rbx			# val <= 0?
+# 		jle U2Step12				# if so, goto U2Step2: (skip count++)
+# 		iaddq $1, %rax			# count++
+# U2Step12:	mrmovq (%rdi), %rbx	# read val from src...
+# 		iaddq $8, %rdi			# src++
+# 		# nop
+# 		rmmovq %rbx, (%rsi)		# ...and store it to dst
+# 		iaddq $-8, %rsi			# dst--
+# 		andq %rbx, %rbx			# val <= 0?
+# 		jle U2Step13				# if so, goto U2Step2: (skip count++)
+# 		iaddq $1, %rax			# count++
+# U2Step13:	mrmovq (%rdi), %rbx	# read val from src...
+# 		iaddq $8, %rdi			# src++
+# 		# nop
+# 		rmmovq %rbx, (%rsi)		# ...and store it to dst
+# 		iaddq $-8, %rsi			# dst--
+# 		andq %rbx, %rbx			# val <= 0?
+# 		jle U2Step14				# if so, goto U2Step2: (skip count++)
+# 		iaddq $1, %rax			# count++
+# U2Step14:	mrmovq (%rdi), %rbx	# read val from src...
+# 		iaddq $8, %rdi			# src++
+# 		# nop
+# 		rmmovq %rbx, (%rsi)		# ...and store it to dst
+# 		iaddq $-8, %rsi			# dst--
+# 		andq %rbx, %rbx			# val <= 0?
+# 		jle U2Step15				# if so, goto U2Step2: (skip count++)
+# 		iaddq $1, %rax			# count++
+# U2Step15:	mrmovq (%rdi), %rbx	# read val from src...
+# 		iaddq $8, %rdi			# src++
+# 		# nop
+# 		rmmovq %rbx, (%rsi)		# ...and store it to dst
+# 		iaddq $-8, %rsi			# dst--
+# 		andq %rbx, %rbx			# val <= 0?
+		jle U2fin				# if so, goto Ufin: (skip count++)
+		iaddq $1, %rax			# count++
+U2fin:	jmp U2Loop
+
+Betw2:	iaddq $24, %rdx
 		andq %rdx, %rdx			# Test rdx > 0
 		# nop
 		jg FLoop			    	# if rdx > 0 , skip ret

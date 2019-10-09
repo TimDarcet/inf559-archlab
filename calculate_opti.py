@@ -11,3 +11,5 @@ for k1 in range(1, 16):
                            for n in range(maxN + 1)) / (maxN + 1)
         print(k1, k2, vals[k1][k2])
 print(min(min(x) for x in vals))
+
+print("avg inv ", sum(1 / k for k in range(1, maxN + 1)) / 64)
